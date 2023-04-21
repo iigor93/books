@@ -2,3 +2,5 @@
 /venv/
 /user_profile/migrations/
 .idea
+/core/.env
+/db.sqlite3
