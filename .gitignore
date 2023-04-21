@@ -4,3 +4,4 @@
 .idea
 /core/.env
 /db.sqlite3
+/start_page/migrations/

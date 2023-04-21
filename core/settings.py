@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'book',
     'user_profile',
+    'start_page',
 ]
 
 MIDDLEWARE = [

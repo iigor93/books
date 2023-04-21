@@ -1,5 +1,5 @@
 
-from rest_framework import viewsets, generics
+from rest_framework import generics
 
 from user_profile.models import Profile
 from user_profile.serializers import ProfileSerializer
