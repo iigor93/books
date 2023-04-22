@@ -6,7 +6,7 @@ class Book(models.Model):
     class Meta:
         verbose_name = 'Книга'
         verbose_name_plural = 'Книги'
-        ordering = ('-id',)
+        ordering = ('id',)
 
     name = models.CharField(max_length=20, verbose_name="Название")
     title = models.CharField(max_length=30, verbose_name="Заголовок", null=True, blank=True)
