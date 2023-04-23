@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Список книг</title>
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
 
@@ -89,23 +89,23 @@
         <table class="table">
           <tbody>
             <tr>
-              <td><label for="column_name_id">Название</label></td>
+              <td><label for="create_name_id">Название</label></td>
               <td><input class="col_create" type="text" id="create_name_id" col="name"></td>
             </tr>
             <tr>
-              <td><label for="column_title_id">Заголовок</label></td>
+              <td><label for="create_title_id">Заголовок</label></td>
               <td><input class="col_create" type="text" id="create_title_id" col="title"><br></td>
             </tr>
             <tr>
-              <td><label for="column_author_id">Автор</label></td>
+              <td><label for="create_author_id">Автор</label></td>
               <td><input class="col_create" type="text" id="create_author_id" col="author"><br></td>
             </tr>
             <tr>
-              <td><label for="column_description_id">Описание</label></td>
+              <td><label for="create_description_id">Описание</label></td>
               <td><input class="col_create" type="text" id="create_description_id" col="description"><br></td>
             </tr>
             <tr>
-              <td><label for="column_price_id">Цена</label></td>
+              <td><label for="create_price_id">Цена</label></td>
               <td><input class="col_create" type="number" min="0" max="99999" id="create_price_id" col="price"><br></td>
             </tr>
           </tbody>
@@ -114,7 +114,7 @@
       </div>
       <div class="modal-footer">
         <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="hideSettings()">Закрыть</button> -->
-        <button type="button" class="btn btn-primary" onclick="sendNew()">Сохранить</button>
+        <button id="save_item" type="button" class="btn btn-primary" onclick="sendNew()">Сохранить</button>
       </div>
     </div>
   </div>
@@ -132,43 +132,37 @@
   });
 
   function getBooks() {
+    //получаем список книг и отрисовываем таблицу
     $.get( '{% url "books_list" %}', function( data ) {
       $( data ).each(function() {
         // console.log(this.author);
-        $( "#table_body" ).append(
-          '<tr>' + 
-            '<td class="edit"><i class="fa-solid fa-pen-to-square"></i>' + 
-            '</td><td class="column_name" >' + this.name + '</td>' + 
-            '<td class="column_title" >' + this.title + '</td>' +
-            '<td class="column_author" >' + this.author + '</td>' +
-            '<td class="column_description" >' + this.description + '</td>' +
-            '<td class="column_price" >' + this.price + '</td>' + 
-            '<td class="delete"><i class="fa-solid fa-trash" onclick="deleteItem(+' + this.id + ')"></i></td>' +
-          '</tr>'
-        )
+        drawRow(this);
       });
     });
   }
 
   function deleteItem(number) {
+    // удаляем один элемент
     console.log(number);
     $.ajax({
       url: "/books/" + number + "/",
       type: 'DELETE',
       success: function(data, textStatus, xhr) {
-        console.log(xhr.status)
+        // console.log(xhr.status);
+        $( "#row_" + number ).hide();
       }
     });
   }
 
   function getProfile() {
+    //получаем настройки колонок
     $.get( '{% url "user_profile" 1 %}', function( data ) {
       hideColumns(data);
     });
   }
 
   function hideColumns(data) {
-
+    //прячем или отображаем колонки
     $.each(data, function(index, value){ 
       // console.log(index + " : " + value);
       if (index != "id") {
@@ -193,6 +187,7 @@
   }
 
   function changeTable(column) {
+    //показывает или убирает колонки при нажатии на checkbox
     var ch = $( column ).prop("checked");
     var col_ = $(column).attr("col");
 
@@ -205,6 +200,7 @@
   }
 
   function sendSettings() {
+    // отправка данных с настройками таблицы
     var obj = {};
     $( ".col_settings" ).each(function() {
       var ch = $( this ).prop("checked");
@@ -221,14 +217,16 @@
     });
 
     hideSettings();
-
   }
 
   function createNew() {
-    $('#createModal').modal('show')
+    $( ".col_create" ).val("");
+    $( "#save_item" ).attr("onclick", "sendNew()");
+    $('#createModal').modal('show');
   }
 
   function sendNew() {
+    //отправка данных с новой книгой
     var obj = {};
     $( ".col_create" ).each(function() {
       var ch = $( this ).val();
@@ -243,22 +241,128 @@
       data: obj,
       success: function(result) {
         console.log("SUCCESS");
-        $( "#table_body" ).append(
-          '<tr>' + 
-            '<td class="edit"><i class="fa-solid fa-pen-to-square"></i>' + 
-            '</td><td class="column_name" >' + result.name + '</td>' + 
-            '<td class="column_title" >' + result.title + '</td>' +
-            '<td class="column_author" >' + result.author + '</td>' +
-            '<td class="column_description" >' + result.description + '</td>' +
-            '<td class="column_price" >' + result.price + '</td>' + 
-            '<td class="delete"><i class="fa-solid fa-trash" onclick="deleteItem(+' + result.id + ')"></i></td>' +
-          '</tr>'
-        )
+        drawRow(result);
+        getProfile();
+      },
+      error: function($xhr){
+        checkErr($xhr);
       }
     });
 
     $('#createModal').modal('hide')
+  }
 
+  function drawRow(item) {
+    //отрисовка одной строки таблицы  
+    $( "#table_body" ).append(
+          '<tr id="row_' + item.id + '">' + 
+            '<td class="edit"><i class="fa-solid fa-pen-to-square" onclick="editItem(+' + item.id + ')"></i>' + 
+            '</td><td class="column_name" >' + item.name + '</td>' + 
+            '<td class="column_title" >' + item.title + '</td>' +
+            '<td class="column_author" >' + item.author + '</td>' +
+            '<td class="column_description" >' + item.description + '</td>' +
+            '<td class="column_price" >' + item.price + '</td>' + 
+            '<td class="delete"><i class="fa-solid fa-trash" onclick="deleteItem(+' + item.id + ')"></i></td>' +
+          '</tr>'
+        )
+  }
+
+  function editItem(id) {
+    //изменение одной книги
+    $( "#createModalLabel" ).html("Редактирование");
+    var trow = $( "#row_" + id );
+    $( trow ).children().each(function() {
+      var class_name = $(this).attr("class");
+      if (class_name.startsWith("column_")) {
+        var col_name = class_name.split("_")[1];
+        var input_field = $( "#create_" + col_name + "_id" )[0];
+        $( input_field ).val($(this).html())
+      }
+    });
+
+    $( "#save_item" ).attr("onclick", "sendUpdateItem(" + id + ")")
+    
+    $('#createModal').modal('show');
+  }
+
+  function sendUpdateItem(id) {
+    //отправка данных с новой книгой
+    var obj = {};
+    $( ".col_create" ).each(function() {
+      var ch = $( this ).val();
+      var col_ = $(this).attr("col");
+      obj[col_] = ch;
+    });
+    
+    $.ajax({
+      url: "/books/" + id + "/",
+      type: 'PUT',
+      data: obj,
+      success: function(result) {
+        // console.log(obj);
+        var trow = $( "#row_" + result.id );
+        $( trow ).children().each(function() {
+          var class_name = $(this).attr("class");
+          if (class_name.startsWith("column_")) {
+            var col_name = class_name.split("_")[1];
+            $(this).html(result[col_name]);
+          }
+        });
+      },
+      error: function($xhr){
+        checkErr($xhr);
+      }
+    });
+
+    $('#createModal').modal('hide')
+  };
+
+  function checkErr($xhr) {
+    var obj = jQuery.parseJSON($xhr.responseText)
+        console.log(obj);
+        if (obj.name){
+           if (obj.name[0] === "This field may not be blank.") {
+            var err_text = "Укажите название книги"
+            alert(err_text);
+          }
+          if (obj.name[0] === "Ensure this field has no more than 20 characters.") {
+            var err_text = "Название не может быть более 20 символов."
+            alert(err_text);
+          }
+        }
+
+        if (obj.title) {
+          var err_text = "Заголовок не может быть более 30 символов."
+          alert(err_text);
+        }
+
+        if (obj.author){
+           if (obj.author[0] === "This field may not be blank.") {
+            var err_text = "Укажите название автора"
+            alert(err_text);
+          }
+          if (obj.author[0] === "Ensure this field has no more than 30 characters.") {
+            var err_text = "Автор не может быть более 30 символов."
+            alert(err_text);
+          }
+        }
+
+        if (obj.description) {
+          var err_text = "Описание не может быть более 512 символов."
+          alert(err_text);
+        }
+        
+        if (obj.price){
+           if (obj.price[0] === "A valid integer is required.") {
+            var err_text = "Укажите цену"
+            alert(err_text);
+          }
+          if (obj.price[0] === "Ensure this value is less than or equal to 99999.") {
+            var err_text = "Цена не может быть больше 99999."
+            alert(err_text);
+          }
+        }
+        console.log("END ERR")
   }
 
 </script>
