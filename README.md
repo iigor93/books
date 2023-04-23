@@ -6,7 +6,7 @@ __Proxy server:__ Nginx (also manage all static and media files)
 
 __WSGI server:__ Gunicorn
 
-## Architecture
+## Архитектура
 **: books**
 
 Создание, чтение, редактирование и удаление книг
@@ -14,6 +14,14 @@ __WSGI server:__ Gunicorn
 **:: profile**
 
 Настройка таблицы (показ/скрытие колонок)
+
+**:: core**
+
+Приложение django
+
+**:: start_page**
+
+Отдает стартовую страницу
 
 ## Шаблон
 
