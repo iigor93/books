@@ -6,7 +6,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Find and Replace
-        id: abc
+        id: abc_ic
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "( |\\t|^)ic\\("
@@ -22,17 +22,15 @@ jobs:
           regex: false
       - name: check
         run: |
-          echo ${{ steps.abc.outputs.modifiedFiles}}
-          echo ${{ steps.abc_icecreame.outputs.modifiedFiles}}
-          if [[ ${{ steps.abc.outputs.modifiedFiles}} == '0' ]]; then
+          if [[ ${{ steps.abc_ic.outputs.modifiedFiles}} == '0' ]]; then
             echo "OK..."
           else
-            echo "ERR..."
+            echo "ERR... found ic in code"
             exit 2
           fi
           if [[ ${{ steps.abc_icecreame.outputs.modifiedFiles}} == '0' ]]; then
             echo "OK..."
           else
-            echo "ERR..."
+            echo "ERR... found from icecream in code"
             exit 2
           fi

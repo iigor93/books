@@ -1,5 +1,4 @@
 from rest_framework import viewsets
-from icecream import ic
 from book.models import Book
 from book.serializers import BookSerializer
 
