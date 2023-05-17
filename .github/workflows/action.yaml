@@ -11,6 +11,7 @@ jobs:
         with:
           find: "hello"
           replace: "world"
+          include: "book/**"
           regex: false
       - name: Push changes
         uses: ad-m/github-push-action@master
