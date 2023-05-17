@@ -30,3 +30,9 @@ jobs:
             echo "ERR..."
             exit 2
           fi
+          if [[ ${{ steps.abc_icecreame.outputs.modifiedFiles}} == '0' ]]; then
+            echo "OK..."
+          else
+            echo "ERR..."
+            exit 2
+          fi
