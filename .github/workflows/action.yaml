@@ -15,3 +15,6 @@ jobs:
       - name: check
         run: |
           echo ${{ steps.abc.outputs.modifiedFiles}}
+          if [[${{ steps.abc.outputs.modifiedFiles}}]] > 3; then
+            exit 2
+          fi
