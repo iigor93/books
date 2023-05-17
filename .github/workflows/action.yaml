@@ -6,10 +6,11 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Find and Replace
+        id: abc
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "hello"
           replace: "world"
           regex: false
-      - name: msg
-        run: echo "SELECTED_COLOR=green" >> "$GITHUB_OUTPUT"
+      - name: check
+        run echo "${{steps.abc.outputs.modifiedFiles}}"
