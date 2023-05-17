@@ -10,14 +10,14 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "ic("
-          replace: ""
+          replace: " "
           regex: false
       - name: Find and Replace icecreame
         id: abc_icecreame
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "icecreame"
-          replace: ""
+          replace: " "
           regex: false
       - name: check
         run: |
