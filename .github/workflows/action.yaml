@@ -12,5 +12,6 @@ jobs:
           find: "ic("
           replace: "world"
           regex: false
-      - run: |
+      - name: check
+        run: |
           echo ${{ steps.abc.outputs.modifiedFiles}}
