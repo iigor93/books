@@ -16,7 +16,7 @@ jobs:
         id: abc_icecreame
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "from icecreame"
+          find: "from icecream"
           replace: " "
           exclude: ".github/**"
           regex: false
