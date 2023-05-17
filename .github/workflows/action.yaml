@@ -6,10 +6,11 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Find and Replace
+        id: abc
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "hello"
           replace: "world"
           regex: false
       - name: check
-        run: echo "hello 35"  >> $GITHUB_OUTPUT
+        run: echo "${{steps.abc.outputs.modifiedFiles}}"  >> $GITHUB_OUTPUT
