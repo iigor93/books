@@ -11,14 +11,16 @@ jobs:
         with:
           find: "( |\\t|^)ic\\("
           replace: " "
-          exclude: ".github/**" "book/**"
+          exclude: ".github/** book/**"
+          exclude: "book/**"
       - name: Find and Replace icecreame
         id: abc_icecreame
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "from icecream"
           replace: " "
-          exclude: ".github/**" "book/**"
+          exclude: ".github/**"
+          exclude: "book/**"
           regex: false
       - name: check
         run: |
