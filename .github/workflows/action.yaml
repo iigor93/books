@@ -13,4 +13,4 @@ jobs:
           replace: "world"
           regex: false
       - name: check
-        run echo "${{steps.abc.outputs.modifiedFiles}}"
+        run echo "${{steps.abc.modifiedFiles}}"  >> $GITHUB_OUTPUT
