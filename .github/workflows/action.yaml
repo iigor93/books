@@ -9,7 +9,7 @@ jobs:
         id: abc
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "hello"
+          find: "ic("
           replace: "world"
           regex: false
       - run: |
