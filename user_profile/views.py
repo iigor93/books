@@ -11,5 +11,4 @@ class UserProfileUpdateView(generics.RetrieveUpdateAPIView):
 
     def get_object(self):
         user_profile, _ = Profile.objects.get_or_create(pk=1)
-        hello
         return user_profile

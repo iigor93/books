@@ -5,7 +5,6 @@ from book.serializers import BookSerializer
 
 
 class BookListView(viewsets.ModelViewSet):
-    """ Список книг hello 5"""
-    hello
+    """ Список книг """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
