@@ -7,5 +7,5 @@ from book.serializers import BookSerializer
 class BookListView(viewsets.ModelViewSet):
     """ Список книг """
     queryset = Book.objects.all()
-    ic()
+    ic("dfff")
     serializer_class = BookSerializer

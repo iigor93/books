@@ -10,14 +10,22 @@ jobs:
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "ic("
-          replace: "world"
+          replace: ""
+          regex: false
+      - name: Find and Replace icecreame
+        id: abc_icecreame
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "icecreame"
+          replace: ""
           regex: false
       - name: check
         run: |
           echo ${{ steps.abc.outputs.modifiedFiles}}
-          if [[ ${{ steps.abc.outputs.modifiedFiles}} == '3' ]]; then
-            echo "Abort"
-            exit 2
-          else
+          echo ${{ steps.abc_icecreame.outputs.modifiedFiles}}
+          if [[ ${{ steps.abc.outputs.modifiedFiles}} == '1' ]]; then
             echo "OK..."
+          else
+            echo "ERR..."
+            exit 2
           fi
