@@ -22,7 +22,7 @@ jobs:
         run: |
           echo ${{ steps.abc.outputs.modifiedFiles}}
           echo ${{ steps.abc_icecreame.outputs.modifiedFiles}}
-          if [[ ${{ steps.abc.outputs.modifiedFiles}} == '0' ]]; then
+          if [[ ${{ steps.abc.outputs.modifiedFiles}} == '1' ]]; then
             echo "OK..."
           else
             echo "ERR..."
