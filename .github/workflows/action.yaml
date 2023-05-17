@@ -11,4 +11,5 @@ jobs:
           find: "hello"
           replace: "world"
           regex: false
+      - name: msg
         run: echo "SELECTED_COLOR=green" >> "$GITHUB_OUTPUT"
