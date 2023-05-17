@@ -9,7 +9,7 @@ jobs:
         id: abc
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "/^ic\\("
+          find: "r'/^ic\\(/'"
           replace: " "
           exclude: ".github/**"
       - name: Find and Replace icecreame
